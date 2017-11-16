@@ -15,7 +15,7 @@ namespace Shared.Catalog
 
         #region Properties
 
-        public List<List<Book>> Sections { get; }
+        public List<Section> Sections { get; }
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace Shared.Catalog
         {
             _bookSource = bookSource;
 
-            Sections = new List<List<Book>>();
+            Sections = new List<Section>();
         }
 
         #endregion
@@ -44,7 +44,11 @@ namespace Shared.Catalog
         {
             if (_bookSource != null)
             {
-                _bookSource.SaveBooks(Books);
+                var flatBooksList = new List<Book>();
+
+                Sections.ForEach(s => flatBooksList.AddRange(s.Books));
+
+                _bookSource.SaveBooks(flatBooksList);
             }
         }
 
@@ -71,8 +75,10 @@ namespace Shared.Catalog
                 }
             }
 
-
-
+            foreach (var key in tempBuffer.Keys)
+            {
+                Sections.Add(new Section(key, tempBuffer[key]));
+            }
         }
 
         #endregion

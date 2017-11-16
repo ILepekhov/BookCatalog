@@ -7,8 +7,8 @@
     <ProjectGuid>{8F21D82E-D071-421E-A6D8-184E635F818A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XmlFileBooksSource.cs</RootNamespace>
-    <AssemblyName>XmlFileBooksSource.cs</AssemblyName>
+    <RootNamespace>FileBooksSource</RootNamespace>
+    <AssemblyName>FileBooksSource</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

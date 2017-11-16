@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C0CD7F24-9532-43E8-B272-503ACAD593D3}</ProjectGuid>
+    <ProjectGuid>{0AB9616D-CE28-4644-8435-B847D05055CF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>BookCatalog.Client</RootNamespace>
-    <AssemblyName>BookCatalog.Client</AssemblyName>
+    <RootNamespace>GUI.Client</RootNamespace>
+    <AssemblyName>GUI.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -53,6 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\BookCatalogViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -91,6 +92,28 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BooksSources\XmlFileBooksSource.cs\FileBooksSource.csproj">
+      <Project>{8f21d82e-d071-421e-a6d8-184e635f818a}</Project>
+      <Name>FileBooksSource</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Catalog\Shared.Catalog.csproj">
+      <Project>{c4cfe2ef-1342-419d-aea6-23e3a20239b5}</Project>
+      <Name>Shared.Catalog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Interfaces\Shared.Interfaces.csproj">
+      <Project>{8b8f8d23-d78c-4c35-8ea5-7abc5ef833a1}</Project>
+      <Name>Shared.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Models\Shared.BookLib.csproj">
+      <Project>{04acdefc-9d4a-4a5f-b1ea-dd591f05944a}</Project>
+      <Name>Shared.BookLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Shared.BindingConverters\Shared.Binding.csproj">
+      <Project>{d40b5ad4-7485-44e7-b661-ebdc97ea7dd7}</Project>
+      <Name>Shared.Binding</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

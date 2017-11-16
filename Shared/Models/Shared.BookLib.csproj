@@ -7,8 +7,8 @@
     <ProjectGuid>{04ACDEFC-9D4A-4A5F-B1EA-DD591F05944A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Models</RootNamespace>
-    <AssemblyName>Models</AssemblyName>
+    <RootNamespace>Shared.BookLib</RootNamespace>
+    <AssemblyName>Shared.BookLib</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
