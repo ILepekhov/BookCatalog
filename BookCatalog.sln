@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{7632F1D6-75BD-42F5-AD08-54271373BA30}"
 EndProject
@@ -9,7 +9,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookCatalog.Client", "Clien
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{AF98C5F3-F717-4DCF-94A3-752F8580FEF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Shared\Models\Models.csproj", "{04ACDEFC-9D4A-4A5F-B1EA-DD591F05944A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.BookLib", "Shared\Models\Shared.BookLib.csproj", "{04ACDEFC-9D4A-4A5F-B1EA-DD591F05944A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Interfaces", "Shared\Interfaces\Shared.Interfaces.csproj", "{8B8F8D23-D78C-4C35-8EA5-7ABC5EF833A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Catalog", "Shared\Catalog\Shared.Catalog.csproj", "{C4CFE2EF-1342-419D-AEA6-23E3A20239B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BooksSources", "BooksSources", "{244AE95C-49AD-45CF-8CDE-831AD53353F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileBooksSource", "BooksSources\XmlFileBooksSource.cs\FileBooksSource.csproj", "{8F21D82E-D071-421E-A6D8-184E635F818A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.BindingConverters", "Shared\Shared.BindingConverters\Shared.BindingConverters.csproj", "{D40B5AD4-7485-44E7-B661-EBDC97EA7DD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +35,22 @@ Global
 		{04ACDEFC-9D4A-4A5F-B1EA-DD591F05944A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04ACDEFC-9D4A-4A5F-B1EA-DD591F05944A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04ACDEFC-9D4A-4A5F-B1EA-DD591F05944A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B8F8D23-D78C-4C35-8EA5-7ABC5EF833A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B8F8D23-D78C-4C35-8EA5-7ABC5EF833A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B8F8D23-D78C-4C35-8EA5-7ABC5EF833A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B8F8D23-D78C-4C35-8EA5-7ABC5EF833A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4CFE2EF-1342-419D-AEA6-23E3A20239B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4CFE2EF-1342-419D-AEA6-23E3A20239B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4CFE2EF-1342-419D-AEA6-23E3A20239B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4CFE2EF-1342-419D-AEA6-23E3A20239B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F21D82E-D071-421E-A6D8-184E635F818A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F21D82E-D071-421E-A6D8-184E635F818A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F21D82E-D071-421E-A6D8-184E635F818A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F21D82E-D071-421E-A6D8-184E635F818A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D40B5AD4-7485-44E7-B661-EBDC97EA7DD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D40B5AD4-7485-44E7-B661-EBDC97EA7DD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D40B5AD4-7485-44E7-B661-EBDC97EA7DD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D40B5AD4-7485-44E7-B661-EBDC97EA7DD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +58,10 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C0CD7F24-9532-43E8-B272-503ACAD593D3} = {7632F1D6-75BD-42F5-AD08-54271373BA30}
 		{04ACDEFC-9D4A-4A5F-B1EA-DD591F05944A} = {AF98C5F3-F717-4DCF-94A3-752F8580FEF2}
+		{8B8F8D23-D78C-4C35-8EA5-7ABC5EF833A1} = {AF98C5F3-F717-4DCF-94A3-752F8580FEF2}
+		{C4CFE2EF-1342-419D-AEA6-23E3A20239B5} = {AF98C5F3-F717-4DCF-94A3-752F8580FEF2}
+		{8F21D82E-D071-421E-A6D8-184E635F818A} = {244AE95C-49AD-45CF-8CDE-831AD53353F5}
+		{D40B5AD4-7485-44E7-B661-EBDC97EA7DD7} = {AF98C5F3-F717-4DCF-94A3-752F8580FEF2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {43BB11F4-367A-4EA1-B058-DEAB90E7A7BF}
