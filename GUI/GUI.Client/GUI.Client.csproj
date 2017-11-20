@@ -53,7 +53,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Enums\CatalogViewType.cs" />
     <Compile Include="ViewModel\BookCatalogViewModel.cs" />
+    <Compile Include="ViewModel\SectionViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -109,6 +111,14 @@
     <ProjectReference Include="..\..\Shared\Shared.BindingConverters\Shared.Binding.csproj">
       <Project>{d40b5ad4-7485-44e7-b661-ebdc97ea7dd7}</Project>
       <Name>Shared.Binding</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Shared.Localization\Shared.Localization.csproj">
+      <Project>{11bd9a71-febf-4b5a-8f73-acb51b70df2b}</Project>
+      <Name>Shared.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Shared.Themes\Shared.Themes.csproj">
+      <Project>{561c2e1b-6df7-4540-95d2-78d6e3783b78}</Project>
+      <Name>Shared.Themes</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

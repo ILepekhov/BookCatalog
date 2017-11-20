@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:GUI.Client"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary Source="pack://application:,,,/Shared.Themes;component/Generic.xaml"/>
     </Application.Resources>
 </Application>

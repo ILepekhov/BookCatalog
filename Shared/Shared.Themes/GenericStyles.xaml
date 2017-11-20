@@ -18,4 +18,17 @@
         <Setter Property="Background" Value="Transparent"/>
     </Style>
 
+    <Style x:Key="HorizontalSplitterBorder" TargetType="{x:Type Border}">
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Height" Value="1"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
+
+    <Style x:Key="ToggleRadioButton" TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Padding" Value="2"/>
+    </Style>
+    
 </ResourceDictionary>

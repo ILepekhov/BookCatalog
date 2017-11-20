@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:binding="clr-namespace:Shared.Binding;assembly=Shared.Binding"
         xmlns:local="clr-namespace:GUI.Client"
         mc:Ignorable="d"
         
@@ -10,37 +11,158 @@
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
         Height="480" Width="640">
+
+    <Window.Resources>
+
+        <binding:CatalogTypeToStringConverter x:Key="CatalogTypeToStringConverter"/>
+        <binding:StringTruncateConverter x:Key="StringTruncateConverter" MaxStringLength="100"/>
+        <binding:StringTruncateConverter x:Key="DescriptionStringTruncateConverter" MaxStringLength="400"/>
+
+        <DataTemplate x:Key="CatalogListViewTemplate">
+            <Grid Height="100">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <ContentControl Template="{StaticResource OpenedBook}"
+                                        Height="50"
+                                        Grid.RowSpan="3"/>
+                <Image Height="100" Source="{Binding Image}" Grid.RowSpan="3"/>
+
+                <TextBlock Text="{Binding Title, Converter={StaticResource StringTruncateConverter}}"
+                                   Grid.Column="1"/>
+
+                <TextBlock Text="{Binding Authors}"
+                                   Grid.Column="2"/>
+
+                <TextBlock Text="{Binding Description, Converter={StaticResource DescriptionStringTruncateConverter}}" TextWrapping="WrapWithOverflow"
+                                   Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"/>
+
+                <TextBlock Grid.Column="1" Grid.Row="2">
+                            <Hyperlink NavigateUri="{Binding EBookURL}">
+                                <TextBlock Text="{Binding EBookURL}"/>
+                            </Hyperlink>
+                        </TextBlock>
+
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CatalogShopCaseViewTemplate">
+            <Grid Height="100" MaxWidth="300">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <ContentControl Template="{StaticResource OpenedBook}"
+                                        Height="50" Width="50"
+                                        Grid.RowSpan="2"/>
+                <Image Source="{Binding Image}" Grid.RowSpan="2"/>
+
+                <TextBlock Text="{Binding Title, Converter={StaticResource StringTruncateConverter}}"
+                                   TextWrapping="WrapWithOverflow"
+                                   Grid.Column="1"/>
+
+                <TextBlock Text="{Binding Authors}"
+                                   Grid.Column="1" Grid.Row="2"/>
+
+                <TextBlock HorizontalAlignment="Center" Grid.Row="2">
+                            <Hyperlink NavigateUri="{Binding EBookURI}">скачать</Hyperlink>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+
+        <Style x:Key="BooksListBox" TargetType="ListBox" BasedOn="{StaticResource {x:Type ListBox}}">
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CatalogAsList}" Value="True">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel IsItemsHost="True"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="ItemTemplate" Value="{StaticResource CatalogListViewTemplate}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding CatalogAsList}" Value="False">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" IsItemsHost="True"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="ItemTemplate" Value="{StaticResource CatalogShopCaseViewTemplate}"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
 
-        <ListBox ItemsSource="{Binding Sections}" SelectedItem="{Binding SelectedSection}">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" IsItemsHost="True"/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Caption}" Margin="2"/>
-                        <TextBlock Text="{Binding Books.Count, StringFormat={}({0})}" Margin="2"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <Menu>
+            <MenuItem Header="Загрузить из файла" Command="{Binding LoadCatalogFromFileCmd}"/>
+        </Menu>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
-            <TextBlock Text="представление" VerticalAlignment="Center" Margin="5"/>
-            <RadioButton Content="список" IsChecked="True" Margin="5" Style="{StaticResource {x:Type ToggleButton}}"/>
-            <RadioButton Content="витрина" Margin="5" Style="{StaticResource {x:Type ToggleButton}}"/>
+        <StackPanel HorizontalAlignment="Stretch" Grid.Row="1">
+            
+            <ListBox ItemsSource="{Binding Sections}"
+                     SelectedItem="{Binding SelectedSection}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     HorizontalAlignment="Stretch"
+                     Height="Auto"
+                     BorderThickness="0">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="2">
+                            <TextBlock Text="{Binding SectionType, Converter={StaticResource CatalogTypeToStringConverter}}"/>
+                            <TextBlock Text="{Binding Books.Count, StringFormat={}({0})}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Border Style="{StaticResource HorizontalSplitterBorder}"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Text="представление" VerticalAlignment="Center"/>
+                <RadioButton IsChecked="{Binding CatalogAsList}" Content="список" Style="{StaticResource ToggleRadioButton}"/>
+                <RadioButton Content="витрина" Style="{StaticResource ToggleRadioButton}"/>
+            </StackPanel>
+
+            <Border Style="{StaticResource HorizontalSplitterBorder}"/>           
+            
         </StackPanel>
 
-        <ListView ItemsSource="{Binding SelectedSection.Books}"/>
+        <ListBox ItemsSource="{Binding SelectedSection.Books}"
+                 Style="{StaticResource BooksListBox}"
+                 Grid.Row="2"/>
 
     </Grid>
     

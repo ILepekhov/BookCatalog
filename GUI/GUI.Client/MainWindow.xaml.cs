@@ -1,6 +1,4 @@
-﻿using FileBooksSource;
-using GUI.Client.ViewModel;
-using Shared.Catalog;
+﻿using GUI.Client.ViewModel;
 using System.Windows;
 
 namespace GUI.Client
@@ -16,7 +14,7 @@ namespace GUI.Client
 
             Loaded += (s, e) =>
             {
-                DataContext = new BookCatalogViewModel(new BookCatalog(new XmlFileBooksSource()));
+                DataContext = new BookCatalogViewModel();
             };
         }
     }
