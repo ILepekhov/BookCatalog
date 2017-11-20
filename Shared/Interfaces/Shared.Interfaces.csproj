@@ -45,9 +45,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Models\Shared.BookLib.csproj">
+    <ProjectReference Include="..\Models\Shared.Catalog.csproj">
       <Project>{04ACDEFC-9D4A-4A5F-B1EA-DD591F05944A}</Project>
-      <Name>Shared.BookLib</Name>
+      <Name>Shared.Catalog</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

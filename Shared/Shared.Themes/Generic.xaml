@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Shared.Themes">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="./GenericIcons.xaml"/>
+        <ResourceDictionary Source="./GenericStyles.xaml"/>
+        <ResourceDictionary Source="./GenericColors.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

@@ -1,6 +1,6 @@
-﻿namespace Shared.BookLib
+﻿namespace Shared.Catalog
 {
-    public enum CatalogSection
+    public enum SectionType
     {
         Programming,
         Analytics,

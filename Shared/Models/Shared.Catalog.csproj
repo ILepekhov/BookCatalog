@@ -7,8 +7,8 @@
     <ProjectGuid>{04ACDEFC-9D4A-4A5F-B1EA-DD591F05944A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Shared.BookLib</RootNamespace>
-    <AssemblyName>Shared.BookLib</AssemblyName>
+    <RootNamespace>Shared.Catalog</RootNamespace>
+    <AssemblyName>Shared.Catalog</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Book.cs" />
-    <Compile Include="CatalogSection.cs" />
+    <Compile Include="SectionType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

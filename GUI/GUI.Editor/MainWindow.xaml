@@ -1,0 +1,158 @@
+﻿<Window x:Class="GUI.Editor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:catalog="clr-namespace:Shared.Catalog;assembly=Shared.Catalog"
+        xmlns:binding="clr-namespace:Shared.Binding;assembly=Shared.Binding"
+        xmlns:loc="clr-namespace:Shared.Localization.Properties;assembly=Shared.Localization"
+        xmlns:viewModel="clr-namespace:GUI.Editor.ViewModel"
+        xmlns:helpers="clr-namespace:GUI.Editor.Helpers"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"        
+        mc:Ignorable="d"
+        
+        Title="Редактор каталога книг"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        Height="480" 
+        Width="640">
+
+    <Window.Resources>
+
+        <binding:CatalogTypeToStringConverter x:Key="CatalogTypeToStringConverter"/>
+        <binding:StringTruncateConverter x:Key="StringTruncateConverter" MaxStringLength="60"/>        
+
+        <HierarchicalDataTemplate DataType="{x:Type viewModel:SectionViewModel}" ItemsSource="{Binding Books}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding SectionType, Converter={StaticResource CatalogTypeToStringConverter}}" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Books.Count, StringFormat={}({0})}" VerticalAlignment="Center"/>
+                <Button Style="{StaticResource IcoButton}" Command="{Binding AddBookCmd}"
+                        ToolTip="{x:Static loc:Resources.Action_Add}"
+                        Height="20" Width="20">
+                    <ContentControl Template="{StaticResource PlusIconTemplate}"/>
+                </Button>
+            </StackPanel>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate DataType="{x:Type catalog:Book}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Title, Converter={StaticResource StringTruncateConverter}}" VerticalAlignment="Center"/>
+                <Button Style="{StaticResource IcoButton}" 
+                        ToolTip="{x:Static loc:Resources.Action_Remove}"
+                        Height="20" Width="20"
+                        Command="{Binding Path=DataContext.RemoveBookCmd, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TreeViewItem, AncestorLevel=2}}"
+                        CommandParameter="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TreeViewItem}}">
+                    <ContentControl Template="{StaticResource MinusIconTemplate}"/>
+                </Button>
+            </StackPanel>
+        </HierarchicalDataTemplate>
+
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <Style x:Key="MultilineTextBox" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="MinHeight" Value="70"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ., Converter={StaticResource CatalogTypeToStringConverter}}"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="BookTemplate">
+            <StackPanel HorizontalAlignment="Stretch"
+                        DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=DataContext}">
+
+                <TextBlock Text="Авторы"/>
+                <TextBox Text="{Binding SelectedBook.Authors}" Style="{StaticResource MultilineTextBox}"/>
+
+                <TextBlock Text="Название"/>
+                <TextBox Text="{Binding SelectedBook.Title, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <TextBlock Text="Описание"/>
+                <TextBox Text="{Binding SelectedBook.Description}"  Style="{StaticResource MultilineTextBox}"/>
+
+                <TextBlock Text="Год выпуска"/>
+                <TextBox Text="{Binding SelectedBook.PublicationYear}"/>
+
+                <TextBlock Text="Ссылка на электронную версию"/>
+                <TextBox Text="{Binding SelectedBook.EBookURL}"/>
+
+                <Button Content="Выбрать обложку" Command="{Binding SelectImageCmd}"/>
+                <Grid HorizontalAlignment="Center" Width="200" Height="Auto">
+                    <ContentControl Template="{StaticResource OpenedBook}" Width="100" Height="100"/>
+                    <Image Source="{Binding SelectedBook.Image}" HorizontalAlignment="Center"/>
+                </Grid>
+
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SectionTemplate">
+            <ItemsControl ItemsSource="{Binding ElementName=CatalogTree, Path=SelectedItem.Books}"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+                          Margin="5">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Title, StringFormat={}● {0}}" TextWrapping="Wrap" FontSize="14"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DataTemplate>
+
+        <helpers:CatalogTemplateSelector x:Key="CatalogTemplateSelector"
+                                         BookTemplate="{StaticResource BookTemplate}"
+                                         SectionTemplate="{StaticResource SectionTemplate}"/>
+
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+                <Button Content="{x:Static loc:Resources.Action_Load}" Command="{Binding LoadCatalogFromFileCmd}"/>
+                <Button Content="{x:Static loc:Resources.Action_Save}" Command="{Binding SaveCatalogToFileCmd}"/>
+            </StackPanel>
+
+            <TreeView ItemsSource="{Binding Sections}" x:Name="CatalogTree"
+                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      Grid.Row="1">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectedItemChanged">
+                        <i:InvokeCommandAction
+                        Command="{Binding ChangeSelectedItemCmd}"
+                        CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource AncestorType=TreeView, Mode=FindAncestor}}">
+                        </i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TreeView>
+        </Grid>
+
+        <ScrollViewer Grid.Column="1" Margin="5"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto">
+            <ContentPresenter ContentTemplateSelector="{StaticResource CatalogTemplateSelector}"
+                              Content="{Binding ElementName=CatalogTree, Path=SelectedItem}"/>
+        </ScrollViewer>
+
+    </Grid>
+</Window>

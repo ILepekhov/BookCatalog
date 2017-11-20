@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0AB9616D-CE28-4644-8435-B847D05055CF}</ProjectGuid>
+    <ProjectGuid>{B854F9A2-3EE8-4059-A376-8BE8294EB3FC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>GUI.Client</RootNamespace>
-    <AssemblyName>GUI.Client</AssemblyName>
+    <RootNamespace>GUI.Editor</RootNamespace>
+    <AssemblyName>GUI.Editor</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,6 +35,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -53,7 +56,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModel\BookCatalogViewModel.cs" />
+    <Compile Include="Helpers\CatalogTemplateSelector.cs" />
+    <Compile Include="ViewModel\BookEditorViewModel.cs" />
+    <Compile Include="ViewModel\SectionViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -85,6 +90,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -95,21 +101,30 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BooksSources\XmlFileBooksSource.cs\FileBooksSource.csproj">
-      <Project>{8f21d82e-d071-421e-a6d8-184e635f818a}</Project>
+      <Project>{8F21D82E-D071-421E-A6D8-184E635F818A}</Project>
       <Name>FileBooksSource</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Interfaces\Shared.Interfaces.csproj">
-      <Project>{8b8f8d23-d78c-4c35-8ea5-7abc5ef833a1}</Project>
+      <Project>{8B8F8D23-D78C-4C35-8EA5-7ABC5EF833A1}</Project>
       <Name>Shared.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Models\Shared.Catalog.csproj">
-      <Project>{04acdefc-9d4a-4a5f-b1ea-dd591f05944a}</Project>
+      <Project>{04ACDEFC-9D4A-4A5F-B1EA-DD591F05944A}</Project>
       <Name>Shared.Catalog</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Shared.BindingConverters\Shared.Binding.csproj">
-      <Project>{d40b5ad4-7485-44e7-b661-ebdc97ea7dd7}</Project>
+      <Project>{D40B5AD4-7485-44E7-B661-EBDC97EA7DD7}</Project>
       <Name>Shared.Binding</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Shared.Localization\Shared.Localization.csproj">
+      <Project>{11bd9a71-febf-4b5a-8f73-acb51b70df2b}</Project>
+      <Name>Shared.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Shared.Themes\Shared.Themes.csproj">
+      <Project>{561c2e1b-6df7-4540-95d2-78d6e3783b78}</Project>
+      <Name>Shared.Themes</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

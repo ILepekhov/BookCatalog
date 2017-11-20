@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shared.BookLib
+namespace Shared.Catalog
 {
     [Serializable]
     public sealed class Book
@@ -13,13 +13,15 @@ namespace Shared.BookLib
         public uint PublicationYear { get; set; }
         public byte[] Image { get; set; }
         public string EBookURL { get; set; }
-        public CatalogSection Section { get; set; }
+        public SectionType Section { get; set; }
 
         #endregion
 
         #region .ctor
 
-        public Book(string title, string authors, uint publicationYear, CatalogSection section)
+        public Book() { }
+
+        public Book(string title, string authors, uint publicationYear, SectionType section)
         {
             Title = title;
             Authors = authors;

@@ -39,9 +39,9 @@
             <RadioButton Content="список" IsChecked="True" Margin="5" Style="{StaticResource {x:Type ToggleButton}}"/>
             <RadioButton Content="витрина" Margin="5" Style="{StaticResource {x:Type ToggleButton}}"/>
         </StackPanel>
-        
-        <ListView ItemsSource="{Binding SelectedSection.Books}"
-        
+
+        <ListView ItemsSource="{Binding SelectedSection.Books}"/>
+
     </Grid>
     
 </Window>
