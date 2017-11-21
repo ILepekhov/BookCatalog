@@ -159,4 +159,19 @@
   <data name="Action_LoadFromFile" xml:space="preserve">
     <value>Load from file</value>
   </data>
+  <data name="Action_LoadFromService" xml:space="preserve">
+    <value>Load from service</value>
+  </data>
+  <data name="RequestRorListOfBooks" xml:space="preserve">
+    <value>Request for a list of books</value>
+  </data>
+  <data name="RequestToSaveBookList" xml:space="preserve">
+    <value>Request to save the book list</value>
+  </data>
+  <data name="ServiceStarted" xml:space="preserve">
+    <value>Service started</value>
+  </data>
+  <data name="ServiceStopped" xml:space="preserve">
+    <value>Service stopped</value>
+  </data>
 </root>

@@ -30,5 +30,10 @@
         <Setter Property="Margin" Value="2"/>
         <Setter Property="Padding" Value="2"/>
     </Style>
+
+    <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
     
 </ResourceDictionary>

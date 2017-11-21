@@ -128,9 +128,16 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal">
-                <Button Content="{x:Static loc:Resources.Action_Load}" Command="{Binding LoadCatalogFromFileCmd}"/>
-                <Button Content="{x:Static loc:Resources.Action_Save}" Command="{Binding SaveCatalogToFileCmd}"/>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Источник"/>
+                    <RadioButton Content="Файл" VerticalAlignment="Center" IsChecked="{Binding FileSourceChecked}"/>
+                    <RadioButton Content="Служба" VerticalAlignment="Center" IsChecked="{Binding ServiceSourceChecked}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="{x:Static loc:Resources.Action_Load}" Command="{Binding LoadCatalogCmd}"/>
+                    <Button Content="{x:Static loc:Resources.Action_Save}" Command="{Binding SaveCatalogCmd}"/>
+                </StackPanel>
             </StackPanel>
 
             <TreeView ItemsSource="{Binding Sections}" x:Name="CatalogTree"

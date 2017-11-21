@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
+using WcfClientBooksSource;
 
 namespace GUI.Client.ViewModel
 {
@@ -51,6 +52,8 @@ namespace GUI.Client.ViewModel
 
         public ICommand LoadCatalogFromFileCmd { get; }
 
+        public ICommand LoadCatalogFromServiceCmd { get; }
+
         public ICommand OpenHyperlinkCmd { get; }
 
         #endregion
@@ -62,6 +65,7 @@ namespace GUI.Client.ViewModel
             Sections = new ObservableCollection<SectionViewModel>();
 
             LoadCatalogFromFileCmd = new DelegateCommand(ExecLoadCatalogFromFileCmd, _ => true);
+            LoadCatalogFromServiceCmd = new DelegateCommand(ExecLoadCatalogFromServiceCmd, _ => true);
             OpenHyperlinkCmd = new DelegateCommand(ExecOpenHyperlinkCmd, CanExecOpenHyperlinkCmd);
 
             InitSections();
@@ -145,6 +149,31 @@ namespace GUI.Client.ViewModel
                 {
                     //toDo: сделать вывод сообщения об ошибке
                 }
+            }
+        }
+
+        #endregion
+
+        #region LoadCatalogFromServiceCmd
+
+        private void ExecLoadCatalogFromServiceCmd(object parameter)
+        {
+            ClearSectionsContent();
+
+            var source = new WcfClient("localhost", 1220);
+
+            try
+            {
+                var books = source.GetBooks();
+
+                if (books.Any())
+                {
+                    DistributeBooksToSections(books);
+                }
+            }
+            catch
+            {
+                //toDo: сделать вывод сообщения об ошибке
             }
         }
 

@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
+using WcfClientBooksSource;
 
 namespace GUI.Editor.ViewModel
 {
@@ -16,6 +17,9 @@ namespace GUI.Editor.ViewModel
         #region Fields
 
         private Book _selectedBook;
+
+        private bool _fileSourceChecked;
+        private bool _serviceSourceChecked;
 
         #endregion
 
@@ -29,6 +33,18 @@ namespace GUI.Editor.ViewModel
             set { SetValue(ref _selectedBook, value); }
         }
 
+        public bool FileSourceChecked
+        {
+            get { return _fileSourceChecked; }
+            set { SetValue(ref _fileSourceChecked, value); }
+        }
+
+        public bool ServiceSourceChecked
+        {
+            get { return _serviceSourceChecked; }
+            set { SetValue(ref _serviceSourceChecked, value); }
+        }
+
         #endregion
 
         #region Commands
@@ -37,9 +53,9 @@ namespace GUI.Editor.ViewModel
 
         public ICommand ChangeSelectedItemCmd { get; }
 
-        public ICommand LoadCatalogFromFileCmd { get; }
+        public ICommand LoadCatalogCmd { get; }
 
-        public ICommand SaveCatalogToFileCmd { get; }
+        public ICommand SaveCatalogCmd { get; }
 
         #endregion
 
@@ -52,8 +68,10 @@ namespace GUI.Editor.ViewModel
 
             SelectImageCmd = new DelegateCommand(ExecSelectImageCommand, CanSelectImageCmd);
             ChangeSelectedItemCmd = new DelegateCommand(ExecChangeSelectedItemCmd, _ => true);
-            LoadCatalogFromFileCmd = new DelegateCommand(ExecLoadCatalogFromFileCmd, _ => true);
-            SaveCatalogToFileCmd = new DelegateCommand(ExecSaveCatalogToFileCmd, CanExecSaveCatalogToFileCmd);
+            LoadCatalogCmd = new DelegateCommand(ExecLoadCatalogCmd, _ => true);
+            SaveCatalogCmd = new DelegateCommand(ExecSaveCatalogCmd, CanExecSaveCatalogCmd);
+
+            FileSourceChecked = true;
         }
 
         #endregion
@@ -152,9 +170,18 @@ namespace GUI.Editor.ViewModel
 
         #endregion
 
-        #region LoadCatalogFromFileCmd
+        #region LoadCatalogCmd
 
-        private void ExecLoadCatalogFromFileCmd(object parameter)
+        private void ExecLoadCatalogCmd(object parameter)
+        {
+            if (FileSourceChecked)
+                LoadCatalogFromFile();
+
+            if (ServiceSourceChecked)
+                LoadCatalogFromService();
+        }
+
+        private void LoadCatalogFromFile()
         {
             OpenFileDialog openDialog = new OpenFileDialog()
             {
@@ -181,16 +208,48 @@ namespace GUI.Editor.ViewModel
             }
         }
 
+        private void LoadCatalogFromService()
+        {
+            ClearSectionsContent();
+
+            var source = new WcfClient("localhost", 1220);
+
+            try
+            {
+                var books = source.GetBooks();
+
+                if (books.Any())
+                {
+                    DistributeBooksToSections(books);
+                }
+            }
+            catch
+            {
+                //toDo: сделать вывод сообщения об ошибке
+            }
+        }
+
         #endregion
 
-        #region SaveCatalogToFileCmd
+        #region SaveCatalogCmd
 
-        private bool CanExecSaveCatalogToFileCmd(object parameter)
+        private bool CanExecSaveCatalogCmd(object parameter)
         {
             return Sections.SelectMany(s => s.Books).Count() > 0;
         }
 
-        private void ExecSaveCatalogToFileCmd(object parameter)
+        private void ExecSaveCatalogCmd(object parameter)
+        {
+            var books = Sections.SelectMany(s => s.Books).ToList();
+
+            if (FileSourceChecked)
+                SaveCatalogToFile(books);
+
+            if (ServiceSourceChecked)
+                SaveCatalogOverService(books);
+        }
+
+        private void SaveCatalogToFile(List<Book> books)
         {
             SaveFileDialog saveDialog = new SaveFileDialog()
             {
@@ -201,14 +260,26 @@ namespace GUI.Editor.ViewModel
             {
                 try
                 {
-                    var books = Sections.SelectMany(s => s.Books).ToList();
-
                     BookCatalogXmlSerializerHelper.Serialize(books, saveDialog.FileName);
                 }
                 catch
                 {
                     // toDo: сделать вывод сообщения об ошибке
                 }
+            }
+        }
+
+        private void SaveCatalogOverService(List<Book> books)
+        {
+            var source = new WcfClient("localhost", 1220);
+
+            try
+            {
+                source.SaveBooks(books);
+            }
+            catch
+            {
+                //toDo: сделать вывод сообщения об ошибке
             }
         }
 

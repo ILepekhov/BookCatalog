@@ -97,6 +97,15 @@ namespace Shared.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load from service.
+        /// </summary>
+        public static string Action_LoadFromService {
+            get {
+                return ResourceManager.GetString("Action_LoadFromService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove.
         /// </summary>
         public static string Action_Remove {
@@ -142,6 +151,24 @@ namespace Shared.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Request for a list of books.
+        /// </summary>
+        public static string RequestRorListOfBooks {
+            get {
+                return ResourceManager.GetString("RequestRorListOfBooks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Request to save the book list.
+        /// </summary>
+        public static string RequestToSaveBookList {
+            get {
+                return ResourceManager.GetString("RequestToSaveBookList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Administration.
         /// </summary>
         public static string Section_Administration {
@@ -183,6 +210,24 @@ namespace Shared.Localization.Properties {
         public static string Section_Testing {
             get {
                 return ResourceManager.GetString("Section_Testing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service started.
+        /// </summary>
+        public static string ServiceStarted {
+            get {
+                return ResourceManager.GetString("ServiceStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service stopped.
+        /// </summary>
+        public static string ServiceStopped {
+            get {
+                return ResourceManager.GetString("ServiceStopped", resourceCulture);
             }
         }
     }

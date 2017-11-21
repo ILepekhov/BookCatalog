@@ -147,6 +147,7 @@
 
         <Menu>
             <MenuItem Header="{x:Static loc:Resources.Action_LoadFromFile}" Command="{Binding LoadCatalogFromFileCmd}"/>
+            <MenuItem Header="{x:Static loc:Resources.Action_LoadFromService}" Command="{Binding LoadCatalogFromServiceCmd}"/>
         </Menu>
 
         <StackPanel HorizontalAlignment="Stretch" Grid.Row="1">
