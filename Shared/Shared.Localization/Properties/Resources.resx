@@ -120,6 +120,9 @@
   <data name="Action_Add" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="Action_download" xml:space="preserve">
+    <value>download</value>
+  </data>
   <data name="Action_Load" xml:space="preserve">
     <value>Load</value>
   </data>
@@ -128,5 +131,32 @@
   </data>
   <data name="Action_Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="CatalogView_list" xml:space="preserve">
+    <value>list</value>
+  </data>
+  <data name="CatalogView_shopcase" xml:space="preserve">
+    <value>shopcase</value>
+  </data>
+  <data name="CatalogView_type" xml:space="preserve">
+    <value>view type</value>
+  </data>
+  <data name="Section_Administration" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="Section_Analytics" xml:space="preserve">
+    <value>Analytics</value>
+  </data>
+  <data name="Section_Programming" xml:space="preserve">
+    <value>Programming</value>
+  </data>
+  <data name="Section_ProjectManagement" xml:space="preserve">
+    <value>Project management</value>
+  </data>
+  <data name="Section_Testing" xml:space="preserve">
+    <value>Testing</value>
+  </data>
+  <data name="Action_LoadFromFile" xml:space="preserve">
+    <value>Load from file</value>
   </data>
 </root>

@@ -6,6 +6,7 @@ using Shared.Catalog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 
@@ -50,6 +51,8 @@ namespace GUI.Client.ViewModel
 
         public ICommand LoadCatalogFromFileCmd { get; }
 
+        public ICommand OpenHyperlinkCmd { get; }
+
         #endregion
 
         #region .ctor
@@ -59,6 +62,7 @@ namespace GUI.Client.ViewModel
             Sections = new ObservableCollection<SectionViewModel>();
 
             LoadCatalogFromFileCmd = new DelegateCommand(ExecLoadCatalogFromFileCmd, _ => true);
+            OpenHyperlinkCmd = new DelegateCommand(ExecOpenHyperlinkCmd, CanExecOpenHyperlinkCmd);
 
             InitSections();
 
@@ -142,6 +146,22 @@ namespace GUI.Client.ViewModel
                     //toDo: сделать вывод сообщения об ошибке
                 }
             }
+        }
+
+        #endregion
+
+        #region OpenHyperlinkCmd
+
+        private bool CanExecOpenHyperlinkCmd(object parameter)
+        {
+            return !string.IsNullOrEmpty(parameter as string);
+        }
+
+        private void ExecOpenHyperlinkCmd(object parameter)
+        {
+            var uri = parameter as string;
+
+            Process.Start(new ProcessStartInfo(uri));
         }
 
         #endregion

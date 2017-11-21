@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using loc = Shared.Localization.Properties.Resources;
 
 namespace Shared.Binding
 {
@@ -23,15 +24,15 @@ namespace Shared.Binding
             switch (sectionType)
             {
                 case SectionType.Administration:
-                    return "Администрирование";
+                    return loc.Section_Administration;
                 case SectionType.Analytics:
-                    return "Аналитика";
+                    return loc.Section_Analytics;
                 case SectionType.Programming:
-                    return "Программирование";
+                    return loc.Section_Programming;
                 case SectionType.ProjectManagement:
-                    return "Управление проектами";
+                    return loc.Section_ProjectManagement;
                 case SectionType.Testing:
-                    return "Тестирование";
+                    return loc.Section_Testing;
                 default:
                     return sectionType.ToString();
             }

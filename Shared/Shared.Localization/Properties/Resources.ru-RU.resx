@@ -120,6 +120,9 @@
   <data name="Action_Add" xml:space="preserve">
     <value>Добавить</value>
   </data>
+  <data name="Action_download" xml:space="preserve">
+    <value>скачать</value>
+  </data>
   <data name="Action_Load" xml:space="preserve">
     <value>Загрузить</value>
   </data>
@@ -128,5 +131,32 @@
   </data>
   <data name="Action_Save" xml:space="preserve">
     <value>Сохранить</value>
+  </data>
+  <data name="CatalogView_list" xml:space="preserve">
+    <value>список</value>
+  </data>
+  <data name="CatalogView_shopcase" xml:space="preserve">
+    <value>витрина</value>
+  </data>
+  <data name="CatalogView_type" xml:space="preserve">
+    <value>представление</value>
+  </data>
+  <data name="Section_Administration" xml:space="preserve">
+    <value>Администрирование</value>
+  </data>
+  <data name="Section_Analytics" xml:space="preserve">
+    <value>Аналитика</value>
+  </data>
+  <data name="Section_Programming" xml:space="preserve">
+    <value>Программирование</value>
+  </data>
+  <data name="Section_ProjectManagement" xml:space="preserve">
+    <value>Управление проектами</value>
+  </data>
+  <data name="Section_Testing" xml:space="preserve">
+    <value>Тестирование</value>
+  </data>
+  <data name="Action_LoadFromFile" xml:space="preserve">
+    <value>Загрузить из файла</value>
   </data>
 </root>

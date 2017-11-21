@@ -2,6 +2,7 @@
 using Shared.Catalog;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GUI.Client.ViewModel
 {
@@ -29,7 +30,9 @@ namespace GUI.Client.ViewModel
 
         public void AddBooksRange(IEnumerable<Book> books)
         {
-            foreach (var book in books)
+            var sortedBooks = books.OrderBy(b => b.Title);
+
+            foreach (var book in sortedBooks)
             {
                 Books.Add(book);
             }

@@ -54,6 +54,10 @@
       <Project>{04acdefc-9d4a-4a5f-b1ea-dd591f05944a}</Project>
       <Name>Shared.Catalog</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Shared.Localization\Shared.Localization.csproj">
+      <Project>{11bd9a71-febf-4b5a-8f73-acb51b70df2b}</Project>
+      <Name>Shared.Localization</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
