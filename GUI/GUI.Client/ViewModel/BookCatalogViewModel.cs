@@ -8,8 +8,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using WcfClientBooksSource;
+using loc = Shared.Localization.Properties.Resources;
 
 namespace GUI.Client.ViewModel
 {
@@ -21,18 +24,29 @@ namespace GUI.Client.ViewModel
 
         private CatalogViewType _selectedViewType;
 
+        private bool _loadInProgress;
+
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Список разделов
+        /// </summary>
         public ObservableCollection<SectionViewModel> Sections { get; }
 
+        /// <summary>
+        /// Выбранный раздел
+        /// </summary>
         public SectionViewModel SelectedSection
         {
             get { return _selectedSection; }
             set { SetValue(ref _selectedSection, value); }
         }
 
+        /// <summary>
+        /// Флаг типа представления: true - список, false - витрина
+        /// </summary>
         public bool CatalogAsList
         {
             get { return _selectedViewType == CatalogViewType.List; }
@@ -46,6 +60,20 @@ namespace GUI.Client.ViewModel
             }
         }
 
+        /// <summary>
+        /// Настройки подключения к Wcf-службе
+        /// </summary>
+        public ConnectionSettings ConnectionSettings { get; }
+
+        /// <summary>
+        /// Флаг, управляющий отображением индикатора загрузки
+        /// </summary>
+        public bool LoadInProgress
+        {
+            get { return _loadInProgress; }
+            set { SetValue(ref _loadInProgress, value); }
+        }
+
         #endregion
 
         #region Commands
@@ -53,6 +81,8 @@ namespace GUI.Client.ViewModel
         public ICommand LoadCatalogFromFileCmd { get; }
 
         public ICommand LoadCatalogFromServiceCmd { get; }
+
+        public ICommand ShowConnectionSettingsCmd { get; }
 
         public ICommand OpenHyperlinkCmd { get; }
 
@@ -66,17 +96,23 @@ namespace GUI.Client.ViewModel
 
             LoadCatalogFromFileCmd = new DelegateCommand(ExecLoadCatalogFromFileCmd, _ => true);
             LoadCatalogFromServiceCmd = new DelegateCommand(ExecLoadCatalogFromServiceCmd, _ => true);
+            ShowConnectionSettingsCmd = new DelegateCommand(ExecShowConnectionSettingsCmd, _ => true);
             OpenHyperlinkCmd = new DelegateCommand(ExecOpenHyperlinkCmd, CanExecOpenHyperlinkCmd);
 
             InitSections();
 
             SelectedSection = Sections.FirstOrDefault();
+
+            ConnectionSettings = new ConnectionSettings("localhost", 1220);
         }
 
         #endregion
 
         #region Helpers
 
+        /// <summary>
+        /// Сформированть коллекцию разделов (пустых)
+        /// </summary>
         private void InitSections()
         {
             foreach (var item in Enum.GetValues(typeof(SectionType)))
@@ -85,6 +121,9 @@ namespace GUI.Client.ViewModel
             }
         }
 
+        /// <summary>
+        /// Очистка коллекции разделов
+        /// </summary>
         private void ClearSectionsContent()
         {
             foreach (var section in Sections)
@@ -93,6 +132,10 @@ namespace GUI.Client.ViewModel
             }
         }
 
+        /// <summary>
+        /// Распределить список книг по разделам
+        /// </summary>
+        /// <param name="books"></param>
         private void DistributeBooksToSections(List<Book> books)
         {
             var tempBooksDictionary = new Dictionary<SectionType, List<Book>>();
@@ -119,6 +162,14 @@ namespace GUI.Client.ViewModel
             }
         }
 
+        /// <summary>
+        /// Установка видимости индикатора загрузки в GUI-потоке
+        /// </summary>
+        private void SetLoadingState(bool isLoading)
+        {
+            App.Current.Dispatcher.Invoke(() => LoadInProgress = isLoading);
+        }
+
         #endregion
 
         #region LoadCatalogFromFileCmd
@@ -132,23 +183,32 @@ namespace GUI.Client.ViewModel
 
             if (openDialog.ShowDialog().Value)
             {
-                ClearSectionsContent();                
+                ClearSectionsContent();
 
-                try
+                ThreadPool.QueueUserWorkItem(_ =>
                 {
-                    var source = new XmlFileBooksSource(openDialog.FileName);
+                    SetLoadingState(true);
 
-                    var books = source.GetBooks();
-
-                    if (books.Any())
+                    try
                     {
-                        DistributeBooksToSections(books);
+                        var source = new XmlFileBooksSource(openDialog.FileName);
+
+                        var books = source.GetBooks();
+
+                        if (books.Any())
+                        {
+                            DistributeBooksToSections(books);
+                        }
                     }
-                }
-                catch
-                {
-                    //toDo: сделать вывод сообщения об ошибке
-                }
+                    catch
+                    {
+                        //toDo: сделать вывод сообщения об ошибке
+                    }
+                    finally
+                    {
+                        SetLoadingState(false);
+                    }
+                });
             }
         }
 
@@ -160,21 +220,47 @@ namespace GUI.Client.ViewModel
         {
             ClearSectionsContent();
 
-            var source = new WcfClient("localhost", 1220);
-
-            try
+            ThreadPool.QueueUserWorkItem(_ =>
             {
-                var books = source.GetBooks();
+                SetLoadingState(true);
 
-                if (books.Any())
+                var source = new WcfClient(ConnectionSettings.Address, ConnectionSettings.Port);
+
+                try
                 {
-                    DistributeBooksToSections(books);
+                    var books = source.GetBooks();
+
+                    if (books == null)
+                    {
+                        MessageBox.Show(loc.CouldNotConnectToService, loc.Error, MessageBoxButton.OK);
+
+                        SetLoadingState(false);
+                        return;
+                    }
+
+                    if (books.Any())
+                    {
+                        DistributeBooksToSections(books);
+                    }
                 }
-            }
-            catch
-            {
-                //toDo: сделать вывод сообщения об ошибке
-            }
+                catch
+                {
+                    //toDo: сделать вывод сообщения об ошибке
+                }
+                finally
+                {
+                    SetLoadingState(false);
+                }
+            });
+        }
+
+        #endregion
+
+        #region ShowConnectionsSettingsCmd
+
+        private void ExecShowConnectionSettingsCmd(object parameter)
+        {
+            new ConnectionSettingsView(ConnectionSettings).ShowDialog();
         }
 
         #endregion

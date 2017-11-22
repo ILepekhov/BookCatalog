@@ -28,14 +28,20 @@ namespace GUI.Client.ViewModel
 
         #region Methods
 
+        /// <summary>
+        /// Заполнить секцию книгами (в GUI-потоке)
+        /// </summary>
         public void AddBooksRange(IEnumerable<Book> books)
         {
             var sortedBooks = books.OrderBy(b => b.Title);
 
-            foreach (var book in sortedBooks)
+            App.Current.Dispatcher.Invoke(() =>
             {
-                Books.Add(book);
-            }
+                foreach (var book in sortedBooks)
+                {
+                    Books.Add(book);
+                }
+            });
         }
 
         #endregion

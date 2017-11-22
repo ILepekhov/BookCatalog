@@ -2,6 +2,7 @@
 using Shared.Catalog;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace GUI.Editor.ViewModel
@@ -39,12 +40,20 @@ namespace GUI.Editor.ViewModel
 
         #region Methods
 
+        /// <summary>
+        /// Заполнить секцию книгами (в GUI-потоке)
+        /// </summary>
         public void AddBooksRange(IEnumerable<Book> books)
         {
-            foreach (var book in books)
+            var sortedBooks = books.OrderBy(b => b.Title);
+
+            App.Current.Dispatcher.Invoke(() =>
             {
-                Books.Add(book);
-            }
+                foreach (var book in sortedBooks)
+                {
+                    Books.Add(book);
+                }
+            });
         }
 
         #endregion

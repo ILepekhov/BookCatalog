@@ -53,9 +53,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConnectionSettingsView.xaml.cs">
+      <DependentUpon>ConnectionSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Enums\CatalogViewType.cs" />
     <Compile Include="ViewModel\BookCatalogViewModel.cs" />
+    <Compile Include="ViewModel\ConnectionSettings.cs" />
     <Compile Include="ViewModel\SectionViewModel.cs" />
+    <Page Include="ConnectionSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -124,6 +132,11 @@
       <Project>{561c2e1b-6df7-4540-95d2-78d6e3783b78}</Project>
       <Name>Shared.Themes</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="book catalog.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

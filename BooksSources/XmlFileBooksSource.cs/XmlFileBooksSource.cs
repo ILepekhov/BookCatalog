@@ -28,9 +28,17 @@ namespace FileBooksSource
             return BookCatalogXmlSerializerHelper.Deserialize(_booksSourceFilePath);
         }
 
-        public void SaveBooks(List<Book> books)
+        public bool SaveBooks(List<Book> books)
         {
-            BookCatalogXmlSerializerHelper.Serialize(books, _booksSourceFilePath);
+            try
+            {
+                BookCatalogXmlSerializerHelper.Serialize(books, _booksSourceFilePath);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         #endregion

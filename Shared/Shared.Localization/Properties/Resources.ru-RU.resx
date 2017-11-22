@@ -174,4 +174,64 @@
   <data name="ServiceStopped" xml:space="preserve">
     <value>Служба остановлена</value>
   </data>
+  <data name="BookCatalog" xml:space="preserve">
+    <value>Каталог книг</value>
+  </data>
+  <data name="ConnectionSettings" xml:space="preserve">
+    <value>Настройки подключения</value>
+  </data>
+  <data name="CouldNotConnectToService" xml:space="preserve">
+    <value>Не удалось подключиться к службе</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="ServiceAddress" xml:space="preserve">
+    <value>Адрес службы</value>
+  </data>
+  <data name="ServicePort" xml:space="preserve">
+    <value>Порт службы</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Источник</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Стоп</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Старт</value>
+  </data>
+  <data name="BookCatalogEditor" xml:space="preserve">
+    <value>Редактор каталога книг</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Служба</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="WcfServerBooksSource" xml:space="preserve">
+    <value>Wcf сервер: источник книг</value>
+  </data>
+  <data name="Action_SelectCover" xml:space="preserve">
+    <value>Выбрать обложку</value>
+  </data>
+  <data name="Book_Authors" xml:space="preserve">
+    <value>Авторы</value>
+  </data>
+  <data name="Book_Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="Book_PublicationYear" xml:space="preserve">
+    <value>Год публикации</value>
+  </data>
+  <data name="Book_Title" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="Book_URL" xml:space="preserve">
+    <value>Ссылка на электронную версию</value>
+  </data>
 </root>

@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:GUI.Client"
         mc:Ignorable="d"
         
-        Title="Каталог книг"
+        Title="{x:Static loc:Resources.BookCatalog}"
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
         Height="480" Width="640">
@@ -18,6 +18,7 @@
         <binding:CatalogTypeToStringConverter x:Key="CatalogTypeToStringConverter"/>
         <binding:StringTruncateConverter x:Key="StringTruncateConverter" MaxStringLength="100"/>
         <binding:StringTruncateConverter x:Key="DescriptionStringTruncateConverter" MaxStringLength="400"/>
+        <binding:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 
         <Style x:Key="BookTitleStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
             <Setter Property="FontSize" Value="13"/>
@@ -146,8 +147,11 @@
         </Grid.RowDefinitions>
 
         <Menu>
-            <MenuItem Header="{x:Static loc:Resources.Action_LoadFromFile}" Command="{Binding LoadCatalogFromFileCmd}"/>
-            <MenuItem Header="{x:Static loc:Resources.Action_LoadFromService}" Command="{Binding LoadCatalogFromServiceCmd}"/>
+            <MenuItem Header="{x:Static loc:Resources.Source}">
+                <MenuItem Header="{x:Static loc:Resources.Action_LoadFromFile}" Command="{Binding LoadCatalogFromFileCmd}"/>
+                <MenuItem Header="{x:Static loc:Resources.Action_LoadFromService}" Command="{Binding LoadCatalogFromServiceCmd}"/>
+                <MenuItem Header="{x:Static loc:Resources.ConnectionSettings}" Command="{Binding ShowConnectionSettingsCmd}"/>
+            </MenuItem>
         </Menu>
 
         <StackPanel HorizontalAlignment="Stretch" Grid.Row="1">
@@ -188,6 +192,10 @@
         <ListBox ItemsSource="{Binding SelectedSection.Books}"
                  Style="{StaticResource BooksListBox}"
                  Grid.Row="2"/>
+
+        <ProgressBar Height="8" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                     IsIndeterminate="True" Grid.Row="2"
+                     Visibility="{Binding LoadInProgress, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
     </Grid>
     

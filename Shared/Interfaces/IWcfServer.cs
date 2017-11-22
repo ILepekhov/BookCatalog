@@ -10,7 +10,7 @@ namespace Interfaces
         [OperationContract]
         List<Book> GetBooks();
 
-        [OperationContract(IsOneWay = true)]
-        void SaveBooks(List<Book> books);
+        [OperationContract]
+        bool SaveBooks(List<Book> books);
     }
 }

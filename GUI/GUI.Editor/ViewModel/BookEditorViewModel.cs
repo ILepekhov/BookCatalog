@@ -7,8 +7,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using WcfClientBooksSource;
+using loc = Shared.Localization.Properties.Resources;
 
 namespace GUI.Editor.ViewModel
 {
@@ -20,6 +23,8 @@ namespace GUI.Editor.ViewModel
 
         private bool _fileSourceChecked;
         private bool _serviceSourceChecked;
+
+        private bool _loadInProgress;
 
         #endregion
 
@@ -43,6 +48,18 @@ namespace GUI.Editor.ViewModel
         {
             get { return _serviceSourceChecked; }
             set { SetValue(ref _serviceSourceChecked, value); }
+        }
+
+        public string ServiceAddress { get; set; }
+        public uint ServicePort { get; set; }
+
+        /// <summary>
+        /// Флаг, управляющий отображением индикатора загрузки
+        /// </summary>
+        public bool LoadInProgress
+        {
+            get { return _loadInProgress; }
+            set { SetValue(ref _loadInProgress, value); }
         }
 
         #endregion
@@ -72,12 +89,18 @@ namespace GUI.Editor.ViewModel
             SaveCatalogCmd = new DelegateCommand(ExecSaveCatalogCmd, CanExecSaveCatalogCmd);
 
             FileSourceChecked = true;
+
+            ServiceAddress = "localhost";
+            ServicePort = 1220;
         }
 
         #endregion
 
         #region Helpers
 
+        /// <summary>
+        /// Сформированть коллекцию разделов (пустых)
+        /// </summary>
         private void InitSections()
         {
             foreach (var item in Enum.GetValues(typeof(SectionType)))
@@ -86,6 +109,9 @@ namespace GUI.Editor.ViewModel
             }
         }
 
+        /// <summary>
+        /// Очистка коллекции разделов
+        /// </summary>
         private void ClearSectionsContent()
         {
             foreach (var section in Sections)
@@ -94,6 +120,9 @@ namespace GUI.Editor.ViewModel
             }
         }
 
+        /// <summary>
+        /// Распределить список книг по разделам
+        /// </summary>
         private void DistributeBooksToSections(List<Book> books)
         {
             var tempBooksDictionary = new Dictionary<SectionType, List<Book>>();
@@ -118,6 +147,14 @@ namespace GUI.Editor.ViewModel
                     section.AddBooksRange(tempBooksDictionary[sectionType]);
                 }
             }
+        }
+
+        /// <summary>
+        /// Установка видимости индикатора загрузки в GUI-потоке
+        /// </summary>
+        private void SetLoadingState(bool isLoading)
+        {
+            App.Current.Dispatcher.Invoke(() => LoadInProgress = isLoading);
         }
 
         #endregion
@@ -185,16 +222,59 @@ namespace GUI.Editor.ViewModel
         {
             OpenFileDialog openDialog = new OpenFileDialog()
             {
-                Filter = "Каталог книг (*.xlm)|*.xml",
+                Filter = $"{loc.BookCatalog} (*.xlm)|*.xml",
             };
 
             if (openDialog.ShowDialog().Value)
             {
                 ClearSectionsContent();
 
+                SetLoadingState(true);
+
+                ThreadPool.QueueUserWorkItem(_ =>
+                {
+                    try
+                    {
+                        var books = BookCatalogXmlSerializerHelper.Deserialize(openDialog.FileName);
+
+                        if (books.Any())
+                        {
+                            DistributeBooksToSections(books);
+                        }
+                    }
+                    catch
+                    {
+                        //toDo: сделать вывод сообщения об ошибке
+                    }
+                    finally
+                    {
+                        SetLoadingState(false);
+                    }
+                });
+            }
+        }
+
+        private void LoadCatalogFromService()
+        {
+            ClearSectionsContent();
+
+            SetLoadingState(true);
+
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                var source = new WcfClient(ServiceAddress, ServicePort);
+
                 try
                 {
-                    var books = BookCatalogXmlSerializerHelper.Deserialize(openDialog.FileName);
+                    var books = source.GetBooks();
+
+                    if (books == null)
+                    {
+                        MessageBox.Show(loc.CouldNotConnectToService, loc.Error, MessageBoxButton.OK);
+
+                        SetLoadingState(false);
+                        return;
+                    }
 
                     if (books.Any())
                     {
@@ -205,28 +285,11 @@ namespace GUI.Editor.ViewModel
                 {
                     //toDo: сделать вывод сообщения об ошибке
                 }
-            }
-        }
-
-        private void LoadCatalogFromService()
-        {
-            ClearSectionsContent();
-
-            var source = new WcfClient("localhost", 1220);
-
-            try
-            {
-                var books = source.GetBooks();
-
-                if (books.Any())
+                finally
                 {
-                    DistributeBooksToSections(books);
+                    SetLoadingState(false);
                 }
-            }
-            catch
-            {
-                //toDo: сделать вывод сообщения об ошибке
-            }
+            });
         }
 
         #endregion
@@ -253,34 +316,55 @@ namespace GUI.Editor.ViewModel
         {
             SaveFileDialog saveDialog = new SaveFileDialog()
             {
-                Filter = "Каталог книг (*.xlm)|*.xml",
+                Filter = $"{loc.BookCatalog} (*.xlm)|*.xml",
             };
 
             if (saveDialog.ShowDialog().Value)
             {
-                try
+                ThreadPool.QueueUserWorkItem(_ =>
                 {
-                    BookCatalogXmlSerializerHelper.Serialize(books, saveDialog.FileName);
-                }
-                catch
-                {
-                    // toDo: сделать вывод сообщения об ошибке
-                }
+                    SetLoadingState(true);
+
+                    try
+                    {
+                        BookCatalogXmlSerializerHelper.Serialize(books, saveDialog.FileName);
+                    }
+                    catch
+                    {
+                        // toDo: сделать вывод сообщения об ошибке
+                    }
+                    finally
+                    {
+                        SetLoadingState(false);
+                    }
+                });
             }
         }
 
         private void SaveCatalogOverService(List<Book> books)
         {
-            var source = new WcfClient("localhost", 1220);
+            var source = new WcfClient(ServiceAddress, ServicePort);
 
-            try
+            SetLoadingState(true);
+
+            ThreadPool.QueueUserWorkItem(_ =>
             {
-                source.SaveBooks(books);
-            }
-            catch
-            {
-                //toDo: сделать вывод сообщения об ошибке
-            }
+                try
+                {
+                    if (!source.SaveBooks(books))
+                    {
+                        MessageBox.Show(loc.CouldNotConnectToService, loc.Error, MessageBoxButton.OK);
+                    }
+                }
+                catch
+                {
+                    //toDo: сделать вывод сообщения об ошибке
+                }
+                finally
+                {
+                    SetLoadingState(false);
+                }
+            });
         }
 
         #endregion

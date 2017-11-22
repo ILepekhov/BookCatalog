@@ -124,6 +124,78 @@ namespace Shared.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select cover.
+        /// </summary>
+        public static string Action_SelectCover {
+            get {
+                return ResourceManager.GetString("Action_SelectCover", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Authors.
+        /// </summary>
+        public static string Book_Authors {
+            get {
+                return ResourceManager.GetString("Book_Authors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Book_Description {
+            get {
+                return ResourceManager.GetString("Book_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publication year.
+        /// </summary>
+        public static string Book_PublicationYear {
+            get {
+                return ResourceManager.GetString("Book_PublicationYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string Book_Title {
+            get {
+                return ResourceManager.GetString("Book_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Link to the electronic version.
+        /// </summary>
+        public static string Book_URL {
+            get {
+                return ResourceManager.GetString("Book_URL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Book catalog.
+        /// </summary>
+        public static string BookCatalog {
+            get {
+                return ResourceManager.GetString("BookCatalog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Book catalog editor.
+        /// </summary>
+        public static string BookCatalogEditor {
+            get {
+                return ResourceManager.GetString("BookCatalogEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to list.
         /// </summary>
         public static string CatalogView_list {
@@ -147,6 +219,42 @@ namespace Shared.Localization.Properties {
         public static string CatalogView_type {
             get {
                 return ResourceManager.GetString("CatalogView_type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection settings.
+        /// </summary>
+        public static string ConnectionSettings {
+            get {
+                return ResourceManager.GetString("ConnectionSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not connect to the service.
+        /// </summary>
+        public static string CouldNotConnectToService {
+            get {
+                return ResourceManager.GetString("CouldNotConnectToService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
             }
         }
         
@@ -214,6 +322,33 @@ namespace Shared.Localization.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Service.
+        /// </summary>
+        public static string Service {
+            get {
+                return ResourceManager.GetString("Service", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service address.
+        /// </summary>
+        public static string ServiceAddress {
+            get {
+                return ResourceManager.GetString("ServiceAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service port.
+        /// </summary>
+        public static string ServicePort {
+            get {
+                return ResourceManager.GetString("ServicePort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Service started.
         /// </summary>
         public static string ServiceStarted {
@@ -228,6 +363,51 @@ namespace Shared.Localization.Properties {
         public static string ServiceStopped {
             get {
                 return ResourceManager.GetString("ServiceStopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source.
+        /// </summary>
+        public static string Source {
+            get {
+                return ResourceManager.GetString("Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string Start {
+            get {
+                return ResourceManager.GetString("Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop.
+        /// </summary>
+        public static string Stop {
+            get {
+                return ResourceManager.GetString("Stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wcf service: books source.
+        /// </summary>
+        public static string WcfServerBooksSource {
+            get {
+                return ResourceManager.GetString("WcfServerBooksSource", resourceCulture);
             }
         }
     }

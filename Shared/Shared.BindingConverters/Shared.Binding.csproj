@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseBinding.cs" />
+    <Compile Include="BoolToVisibilityConverter.cs" />
     <Compile Include="CatalogTypeToStringConverter.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

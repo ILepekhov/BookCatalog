@@ -47,10 +47,6 @@ namespace Proxy.BookSourceServer.GUI.ViewModel
 
         #endregion
 
-        #region Methods
-
-        #endregion
-
         #region Helpers
 
         private void AddNewLogItem(string text)

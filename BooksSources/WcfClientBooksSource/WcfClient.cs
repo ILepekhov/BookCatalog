@@ -50,25 +50,28 @@ namespace WcfClientBooksSource
             }
             catch (Exception e)
             {
-                // toDo: сделать обработку ошибок
+                return null;
             }
 
             return books;
         }
 
-        public void SaveBooks(List<Book> books)
+        public bool SaveBooks(List<Book> books)
         {
             try
             {
                 var factory = GetChannelFactory();
                 var serverChannel = factory.CreateChannel();
-                serverChannel.SaveBooks(books);
+                var saved = serverChannel.SaveBooks(books);
 
                 CloseChannelFactory(factory);
+
+                return saved;
             }
             catch (Exception e)
             {
                 // toDo: сделать обработку ошибок
+                return false;
             }
         }
 

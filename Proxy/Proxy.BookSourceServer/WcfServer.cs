@@ -37,12 +37,13 @@ namespace Proxy.BookSourceServer.Engine
 
         public event EventHandler<string> EventOccured;
 
-
-
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Флаг, определяющий - запущен ли процесс
+        /// </summary>
         public bool Started { get; private set; }
 
         #endregion
@@ -78,7 +79,7 @@ namespace Proxy.BookSourceServer.Engine
             return new List<Book>();
         }
 
-        public void SaveBooks(List<Book> books)
+        public bool SaveBooks(List<Book> books)
         {
             OnEventOccured(loc.RequestToSaveBookList);
 
@@ -92,10 +93,13 @@ namespace Proxy.BookSourceServer.Engine
                 }
 
                 _catalogContext.SaveChanges();
+
+                return true;
             }
             catch (Exception e)
             {
                 OnEventOccured(e.Message);
+                return false;
             }
         }
 
